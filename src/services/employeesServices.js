@@ -12,7 +12,11 @@ let getAllEmployees = (EmployeeId) => {
                 Employees = await db.Employees.find(); 
             }
             else{
-                 Employees = await db.Employees.findOne({ _id: EmployeeId });
+                 Employees = await db.Employees.findOne({ _id: EmployeeId }).populate({
+      path: 'userId',
+      select:
+        'email',
+    });
             }
             resolve(Employees);
         } catch (e) {

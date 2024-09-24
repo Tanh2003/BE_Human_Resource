@@ -54,7 +54,8 @@ const EmployeesShema= new mongoose.Schema({
 
 }, { timestamps: true })
 
-let Employees = mongoose.model('Employees',EmployeesShema)
+let Employees = mongoose.model('Employees', EmployeesShema);
+
 
 
 module.exports = {Employees};

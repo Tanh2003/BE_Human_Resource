@@ -57,6 +57,8 @@ let getAllUsers = (userId) => {
             let users= '';
             if (userId === 'ALL') {
                 users = await db.Users.find(); 
+            }else{
+                 users = await db.Users.findOne({ _id: userId });
             }
             resolve(users);
         } catch (e) {
@@ -68,7 +70,7 @@ let getAllUsers = (userId) => {
 let createUser = async (userData) => {
     return new Promise(async (resolve, reject) => {
         try {
-            if (!userData.email || !userData.password || !userData.role || userData.isActive === undefined) {
+            if (!userData.email || !userData.password || !userData.role || !userData.isActive) {
                 return reject(new Error('Missing required fields: email, password, role, or isActive'));
             }
             let check = await checkemail(userData.email);
