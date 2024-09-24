@@ -1,33 +1,79 @@
  import UserServices from "../services/userServices";
 
-let handleCreateUser = async(req, res) => {
-    let message = await UserServices.createUser(req.body);
-    console.log(message);
-    return res.status(200).json(message);
 
-
+let handleLogin=async(req,res)=>{
+    let email =req.body.email;
+    let password=req.body.password;
+    //check phoneNumber exist
+    if(!email || !password){
+        return res.status(500).json({
+            errCode: 1,
+            message:'Please enter complete information'
+        });
+    }
+    let userData = await  UserServices.handleUserLogin(email,password);
+    console.log(userData)
+        return res.status(200).json({
+            errCode: userData.errCode,
+            message:userData.errMessage,
+            user: userData.user ? userData.user:{}// check trên api in ra
+          
+          });
 }
 
-let handleGetAllUser = async(req, res) => {
+
+ let handleGetAllUsers = async(req, res) => {
     let id = req.query.id; //all, id
     if (!id) {
         return res.status(200).json({
-            errcode: 1,
+            errCode: 1,
             errMessage: 'Missing require parameters',
-            products: []
+            allUsers
         })
 
     }
-    let allUser = await UserServices.getAllUsers(id);
+    let allUsers= await UserServices.getAllUsers(id);
     
     return res.status(200).json({
         errCode: 0,
         errMessage: 'OK',
-        allUser
+        allUsers
 
     })
+} 
+
+let handleCreateUser = async(req, res) => {
+    let createUsers = await UserServices.createUser(req.body);
+    console.log(createUsers);
+    return res.status(200).json(createUsers);
+
+
 }
+let handleUpdateUsers = async(req, res) => {
+    let data = req.body;
+    let UpdateUsers = await UserServices.updateUsers(data);
+    return res.status(200).json(UpdateUsers)
+
+}
+
+let handleDeleteUsers = async(req, res) => {
+    if (!req.body.id) {
+        return res.status(200).json({
+            errCode: 1,
+            errMessage: "Missing required parameters !"
+
+        })
+    }
+    let DeleteUsers = await UserServices.deleteUsers(req.body.id);
+    console.log(DeleteUsers);
+    return res.status(200).json(DeleteUsers);
+}
+
+
 module.exports={
     handleCreateUser,
-    handleGetAllUser
+    handleUpdateUsers,
+    handleDeleteUsers,
+    handleGetAllUsers,
+    handleLogin
 }
