@@ -15,7 +15,7 @@ let handleLogin=async(req,res)=>{
     console.log(userData)
         return res.status(200).json({
             errCode: userData.errCode,
-            message:userData.errMessage,
+            errMessage:userData.errMessage,
             user: userData.user ? userData.user:{}// check trên api in ra
           
           });
@@ -52,8 +52,10 @@ let handleCreateUser = async(req, res) => {
 let handleUpdateUsers = async(req, res) => {
     let data = req.body;
     let UpdateUsers = await UserServices.updateUsers(data);
-    return res.status(200).json(UpdateUsers)
+    console.log(data);
 
+    return res.status(200).json(UpdateUsers)
+    
 }
 
 let handleDeleteUsers = async(req, res) => {

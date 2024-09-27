@@ -5,7 +5,7 @@ let router = express.Router();
 
 let initWebRouters = (app) => {
     //api cua User
-    router.get("/api/login-user",userController.handleLogin);
+    router.post("/api/login-user",userController.handleLogin);
     router.get("/api/get-all-user",userController.handleGetAllUsers);
     router.post("/api/create-user",userController.handleCreateUser);
     router.put("/api/update-user",userController.handleUpdateUsers);

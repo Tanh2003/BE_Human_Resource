@@ -29,7 +29,7 @@ let handleUserLogin = async (email, password) => {
                 let check = await bcryptjs.compare(password, user.password);
                 if (check) {
                     userData.errCode = 0;
-                    userData.errMessage = "Login successfully";
+                    userData.errMessage = "Sign In successfully!";
                     // userData.user = user; // Password has been removed
                 } else {
                     userData.errCode = 3;
@@ -70,12 +70,12 @@ let getAllUsers = (userId) => {
 let createUser = async (userData) => {
     return new Promise(async (resolve, reject) => {
         try {
-            if (!userData.email || !userData.password || !userData.role || !userData.isActive) {
-                return reject(new Error('Missing required fields: email, password, role, or isActive'));
+            if (!userData.email || !userData.password || !userData.role) {
+                return resolve('Missing required fields: email, password, role, or isActive');
             }
             let check = await checkemail(userData.email);
             if(check) {
-                return reject(new Error('Account name already exists'));
+                return resolve('Account name already exists');
             }
 
             let hashPasswordFromBcrypt = await hashUserPassword(userData.password);
@@ -83,13 +83,13 @@ let createUser = async (userData) => {
                 email: userData.email,
                 password: hashPasswordFromBcrypt,
                 role: userData.role,
-                isActive: userData.isActive
+                isActive: true
             });
 
             const savedUser = await newUser.save();
             resolve({
                 errCode: 0,
-                message: 'Users created successfully', 
+                errMessage: 'Users created successfully', 
                 savedUser
             });
         } catch (e) {
@@ -101,22 +101,39 @@ let createUser = async (userData) => {
 let updateUsers = async (userData) => {
     return new Promise(async (resolve, reject) => {
         try {
-            if (!userData.email || !userData.role || userData.isActive === undefined) {
-                return reject(new Error('Missing required fields: email, role, or isActive'));
-            }
+            console.log("Updating user data:", userData);
 
+            // Hash the password if it's provided
             if (userData.password) {
-                userData.password = await hashUserPassword(userData.password); // Hash mật khẩu mới trước khi cập nhật
+                userData.password = await hashUserPassword(userData.password); // Hash new password before updating
             }
 
+            // Create an object to hold the updates
+            const updateData = {};
+
+            // Check which fields are being updated
+            if (userData.email) {
+                updateData.email = userData.email;
+            }
+            if (userData.password) {
+                updateData.password = userData.password;
+            }
+            if (userData.role) {
+                updateData.role = userData.role;
+            }
+            if (typeof userData.isActive !== 'undefined') { // Check if isActive is provided
+                updateData.isActive = userData.isActive;
+            }
+
+            // If no updates are provided, handle that case
+            if (Object.keys(updateData).length === 0) {
+                return reject(new Error('No valid fields to update'));
+            }
+
+            // Update the user
             const result = await db.Users.updateOne(
-                { _id: userData.userId },
-                {
-                    email: userData.email,
-                    password: userData.password,
-                    role: userData.role,
-                    isActive: userData.isActive
-                }
+                { _id: userData.UserId },
+                { $set: updateData } // Use $set to update only the fields that have changed
             );
 
             if (result.nModified === 0) {
@@ -125,14 +142,16 @@ let updateUsers = async (userData) => {
 
             resolve({
                 errCode: 0,
-                message: 'Users updated successfully', 
+               errMessage: 'User updated successfully',
                 result 
             });
+
         } catch (e) {
             reject(e);
         }
     });
 };
+
 
 let deleteUsers = (userId) => {
     return new Promise(async (resolve, reject) => {
@@ -145,7 +164,7 @@ let deleteUsers = (userId) => {
 
             resolve({
                 errCode: 0,
-                message: 'Users deleted successfully',
+                errMessage: 'Users deleted successfully',
                 result
             });
         } catch (e) {

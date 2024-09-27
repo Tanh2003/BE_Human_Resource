@@ -40,7 +40,10 @@ let createEmployees = async (EmployeeData) => {
      
                 })     
             }  
+             const employeeCount = await db.Employees.countDocuments({});
+            const newEmployeeId = `24HR${(employeeCount + 1).toString().padStart(3, '0')}`;
             const newEmployee = new db.Employees({
+                employeesId:newEmployeeId,
                 fullName: EmployeeData.fullName,
                 age: EmployeeData.age,
                 gender: EmployeeData.gender,
