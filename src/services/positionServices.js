@@ -34,10 +34,8 @@ let createPosition = async (PositionData) => {
                 return resolve({
                         errCode: 1,
                         message: 'Missing required fields', 
-     
                 })     
             }  
-
             const newPosition = new db.Position({           
                 name: PositionData.name,
             });

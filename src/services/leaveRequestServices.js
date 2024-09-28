@@ -26,7 +26,7 @@ let createLeaveRequest = async (LeaveRequestData) => {
     return new Promise(async (resolve, reject) => {
         try {
             // Check for required fields
-            if (!LeaveRequestData.name) {
+            if (!LeaveRequestData) {
                 return resolve({
                         errCode: 1,
                         message: 'Missing required fields', 
@@ -59,14 +59,14 @@ let createLeaveRequest = async (LeaveRequestData) => {
 let updateLeaveRequest = async (LeaveRequestData) => {
     return new Promise(async (resolve, reject) => {
         try {
-            // Check for required fields
-              if (!LeaveRequestData.name ) {
-                return resolve({
-                        errCode: 1,
-                        message: 'Missing required fields', 
+            // // Check for required fields
+            //   if (!LeaveRequestData) {
+            //     return resolve({
+            //             errCode: 1,
+            //             message: 'Missing required fields', 
      
-                })     
-            } 
+            //     })     
+            // } 
 
             const updateData = {
                 start_date: LeaveRequestData.start_date,

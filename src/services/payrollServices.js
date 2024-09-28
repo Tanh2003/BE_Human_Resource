@@ -26,7 +26,7 @@ let createPayroll = async (PayrollData) => {
     return new Promise(async (resolve, reject) => {
         try {
             // Check for required fields
-            if (!PayrollData.name) {
+            if (!PayrollData.salary||!PayrollData.bonus||!PayrollData.deductions||!PayrollData.pay_date) {
                 return resolve({
                         errCode: 1,
                         message: 'Missing required fields', 
@@ -60,7 +60,7 @@ let updatePayroll = async (PayrollData) => {
     return new Promise(async (resolve, reject) => {
         try {
             // Check for required fields
-              if (!PayrollData.name ) {
+              if (!PayrollData) {
                 return resolve({
                         errCode: 1,
                         message: 'Missing required fields', 

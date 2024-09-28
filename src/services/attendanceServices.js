@@ -26,7 +26,7 @@ let createAttendance = async (AttendanceData) => {
     return new Promise(async (resolve, reject) => {
         try {
             // Check for required fields
-            if (!AttendanceData.name) {
+            if (!AttendanceData) {
                 return resolve({
                         errCode: 1,
                         message: 'Missing required fields', 
@@ -60,13 +60,13 @@ let updateAttendance = async (AttendanceData) => {
     return new Promise(async (resolve, reject) => {
         try {
             // Check for required fields
-              if (!AttendanceData.name ) {
-                return resolve({
-                        errCode: 1,
-                        message: 'Missing required fields', 
+            //   if (!AttendanceData.name ) {
+            //     return resolve({
+            //             errCode: 1,
+            //             message: 'Missing required fields', 
      
-                })     
-            } 
+            //     })     
+            // } 
 
             const updateData = {
                 date: AttendanceData.date,
