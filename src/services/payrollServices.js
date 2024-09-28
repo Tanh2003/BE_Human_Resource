@@ -6,12 +6,16 @@ let getAllPayroll = (PayrollId) => {
             let Payroll= '';
             if (PayrollId === 'ALL') {
                 Payroll = await db.Payroll.find().populate({
-      path: 'Employees',
+       path: 'employee_id',
+      select:
+        'employeesId',
     });
             }
             else{
                  Payroll = await db.Payroll.findOne({ _id: PayrollId }).populate({
-      path: 'Employees',
+       path: 'employee_id',
+      select:
+        'employeesId',
     });
             }
             resolve(Payroll);
@@ -34,7 +38,8 @@ let createPayroll = async (PayrollData) => {
                 })     
             }  
 
-            const newPayroll = new db.Payroll({           
+            const newPayroll = new db.Payroll({        
+                employee_id:PayrollData.employee_id,   
                 salary: PayrollData.salary,
                 bonus: PayrollData.bonus,
                 deductions: PayrollData.deductions,
@@ -69,6 +74,7 @@ let updatePayroll = async (PayrollData) => {
             } 
 
             const updateData = {
+                employee_id:PayrollData.employee_id, 
                 salary: PayrollData.salary,
                 bonus: PayrollData.bonus,
                 deductions: PayrollData.deductions,

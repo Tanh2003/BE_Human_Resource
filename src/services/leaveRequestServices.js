@@ -6,12 +6,16 @@ let getAllLeaveRequest = (LeaveRequestId) => {
             let LeaveRequest= '';
             if (LeaveRequestId === 'ALL') {
                 LeaveRequest = await db.LeaveRequest.find().populate({
-      path: 'Employees',
+       path: 'employee_id',
+      select:
+        'employeesId',
     });
             }
             else{
                  LeaveRequest = await db.LeaveRequest.findOne({ _id: LeaveRequestId }).populate({
-      path: 'Employees',
+       path: 'employee_id',
+      select:
+        'employeesId',
     });
             }
             resolve(LeaveRequest);
@@ -34,7 +38,8 @@ let createLeaveRequest = async (LeaveRequestData) => {
                 })     
             }  
 
-            const newLeaveRequest = new db.LeaveRequest({           
+            const newLeaveRequest = new db.LeaveRequest({ 
+                employee_id:LeaveRequestData.employee_id,            
                 start_date: LeaveRequestData.start_date,
                 end_date: LeaveRequestData.end_date,
                 status: LeaveRequestData. status,
@@ -69,6 +74,7 @@ let updateLeaveRequest = async (LeaveRequestData) => {
             // } 
 
             const updateData = {
+                employee_id:LeaveRequestData.employee_id,
                 start_date: LeaveRequestData.start_date,
                 end_date: LeaveRequestData.end_date,
                 status: LeaveRequestData. status,

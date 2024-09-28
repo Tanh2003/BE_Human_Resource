@@ -1,17 +1,42 @@
 const db = require('../models/attendance'); // Sử dụng require cho toàn bộ mã
 
+
+
+// Lấy ngày hiện tại
+const currentDate = new Date();
+
+// Hàm chuyển chuỗi thời gian thành đối tượng Date
+function convertTimeToDate(time) {
+    const [hours, minutes] = time.split(':');
+    const date = new Date(currentDate);
+    date.setHours(hours);
+    date.setMinutes(minutes);
+    date.setSeconds(0);
+    return date;
+}
+
+
+
+
+
+
+
 let getAllAttendance = (AttendanceId) => {
     return new Promise(async(resolve, reject) => {
         try {
             let Attendance= '';
             if (AttendanceId === 'ALL') {
                 Attendance = await db.Attendance.find().populate({
-      path: 'Employees',
+      path: 'employee_id',
+      select:
+      'employeesId',
     });
             }
             else{
                  Attendance = await db.Attendance.findOne({ _id: AttendanceId }).populate({
-      path: 'Employees',
+       path: 'employee_id',
+      select:
+        'employeesId',
     });
             }
             resolve(Attendance);
@@ -34,10 +59,11 @@ let createAttendance = async (AttendanceData) => {
                 })     
             }  
 
-            const newAttendance = new db.Attendance({           
+            const newAttendance = new db.Attendance({    
+                employee_id:AttendanceData.employee_id,        
                 date: AttendanceData.date,
-                check_in: AttendanceData.check_in,
-                check_out: AttendanceData.check_out,
+                check_in: convertTimeToDate(AttendanceData.check_in),
+                check_out: convertTimeToDate(AttendanceData.check_out),
              
                 
 
@@ -69,9 +95,10 @@ let updateAttendance = async (AttendanceData) => {
             // } 
 
             const updateData = {
+                employee_id:AttendanceData.employee_id,  
                 date: AttendanceData.date,
-                check_in: AttendanceData.check_in,
-                check_out: AttendanceData.check_out,
+                check_in: convertTimeToDate(AttendanceData.check_in),
+                check_out: convertTimeToDate(AttendanceData.check_out),
             };
 
             const result = await db.Attendance.updateOne(
