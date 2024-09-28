@@ -24,6 +24,7 @@ let initWebRouters = (app) => {
     router.delete("/api/delete-employee",employeeController.handleDeleteEmployees);
 //API của positon
     router.get("/api/get-all-Position",PositionController.handleGetAllPosition);
+    router.get("/api/get-Department-Of-Position",PositionController.handleDepartmentOfPosition);
     router.post("/api/create-Position",PositionController.handleCreatePosition);
     router.put("/api/update-Position",PositionController.handleUpdatePosition);
     router.delete("/api/delete-Position",PositionController.handleDeletePosition);
@@ -43,6 +44,7 @@ let initWebRouters = (app) => {
     router.post("/api/create-Department",DepartmentController.handleCreateDepartment);
     router.put("/api/update-Department",DepartmentController.handleUpdateDepartment);
     router.delete("/api/delete-Department",DepartmentController.handleDeleteDepartment);
+   
 
 //API của Attendance
     router.get("/api/get-all-Attendance",AttendanceController.handleGetAllAttendance);

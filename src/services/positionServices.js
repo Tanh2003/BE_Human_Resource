@@ -10,15 +10,41 @@ let getAllPosition = (PositionId) => {
             let Position= '';
             if (PositionId === 'ALL') {
                 Position = await db.Position.find().populate({
-      path: 'manager_id',
+      path: 'department_id',
+       select:
+      'name',
     });
             }
             else{
                  Position = await db.Position.findOne({ _id: PositionId }).populate({
-      path: 'manager_id',
+      path: 'department_id',
+       select:
+      'name',
     });
             }
             resolve(Position);
+        } catch (e) {
+            reject(e);
+        }
+    });
+};
+let getDepartmentOfPosition = (PositionId) => {
+    return new Promise(async(resolve, reject) => {
+        try {
+            let Position= '';
+            if (!PositionId) {
+                return resolve({
+                        errCode: 1,
+                        message: 'Missing required fields', 
+                }) 
+            }
+      Position = await db.Position.find({ department_id: PositionId }).populate({
+      path: 'department_id',
+       select:
+      'name',
+    });
+     resolve(Position);
+           
         } catch (e) {
             reject(e);
         }
@@ -38,6 +64,7 @@ let createPosition = async (PositionData) => {
             }  
             const newPosition = new db.Position({           
                 name: PositionData.name,
+                department_id:PositionData.department_id,
             });
 
             const savedPosition = await newPosition.save();
@@ -67,6 +94,7 @@ let updatePosition = async (PositionData) => {
 
             const updateData = {
                 name: PositionData.name,
+                department_id:PositionData.department_id
           
             };
 
@@ -115,5 +143,6 @@ module.exports = {
     createPosition,
     updatePosition,
     deletePosition,
-    getAllPosition
+    getAllPosition,
+    getDepartmentOfPosition
 };

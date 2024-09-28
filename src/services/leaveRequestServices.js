@@ -10,6 +10,8 @@ let getAllLeaveRequest = (LeaveRequestId) => {
       select:
         'employeesId',
     });
+            }else if(LeaveRequestId==="COUNT"){
+                    LeaveRequest = db.LeaveRequest.countDocuments({ status:"pending" });  
             }
             else{
                  LeaveRequest = await db.LeaveRequest.findOne({ _id: LeaveRequestId }).populate({

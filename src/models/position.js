@@ -8,9 +8,9 @@ const PositionSchema = new mongoose.Schema({
         unique: true,
         trim: true
     },
-    manager_id: {
+    department_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Employees'
+        ref: 'Department'
     }
 }, { timestamps: true });
 

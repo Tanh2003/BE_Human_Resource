@@ -57,7 +57,8 @@ let getAllUsers = (userId) => {
             let users= '';
             if (userId === 'ALL') {
                 users = await db.Users.find(); 
-            }else{
+            }
+            else{
                  users = await db.Users.findOne({ _id: userId });
             }
             resolve(users);
