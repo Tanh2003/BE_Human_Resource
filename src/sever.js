@@ -10,13 +10,17 @@ require('dotenv').config();
 
 let app = express();
 
-// Sử dụng middleware cors
-app.use(cors({
-  origin: [process.env.URL_REACT, process.env.URL_REACT2], // Cho phép truy cập từ danh sách các domain được xác định trong biến môi trường
-  methods: "GET, POST, OPTIONS, PUT, PATCH, DELETE",
-  credentials: true,
-  allowedHeaders: "X-Requested-With,content-type",
-}));
+// Cấu hình cors cho phép tất cả các địa chỉ IP, nhưng không sử dụng dấu '*' cho credentials
+const corsOptions = {
+  origin: (origin, callback) => {
+    callback(null, origin);  // Cho phép tất cả các nguồn gốc
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,  // Cho phép gửi credentials (cookie, authentication headers)
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));  // Sử dụng cors với các options đã cấu hình
 
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
