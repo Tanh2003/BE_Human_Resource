@@ -1,4 +1,4 @@
-const db = require('../models/Employees'); // Sử dụng require cho toàn bộ mã
+const db = require('../models/employees'); // Sử dụng require cho toàn bộ mã
 
 
 
@@ -13,6 +13,25 @@ let getAllEmployees = (EmployeeId) => {
             }
             else{
                  Employees = await db.Employees.findOne({ _id: EmployeeId }).populate({
+      path: 'userId',
+      select:
+        'email',
+    });
+            }
+            resolve(Employees);
+        } catch (e) {
+            reject(e);
+        }
+    });
+};
+
+
+let getUserEmployees = (EmployeeId) => {
+    return new Promise(async(resolve, reject) => {
+        try {
+            let Employees= '';
+           if(EmployeeId){
+                 Employees = await db.Employees.findOne({ userId: EmployeeId }).populate({
       path: 'userId',
       select:
         'email',
@@ -144,5 +163,6 @@ module.exports = {
     createEmployees,
     updateEmployees,
     deleteEmployees,
-    getAllEmployees
+    getAllEmployees,
+    getUserEmployees
 };

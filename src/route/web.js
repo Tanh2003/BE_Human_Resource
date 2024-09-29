@@ -19,6 +19,7 @@ let initWebRouters = (app) => {
     router.delete("/api/delete-user",userController.handleDeleteUsers);
 //API của employee
     router.get("/api/get-all-employee",employeeController.handleGetAllEmployees);
+    router.get("/api/get-user-employee",employeeController.handleGetUserEmployees);
     router.post("/api/create-employee",employeeController.handleCreateEmployee);
     router.put("/api/update-employee",employeeController.handleUpdateEmployees);
     router.delete("/api/delete-employee",employeeController.handleDeleteEmployees);
@@ -35,6 +36,8 @@ let initWebRouters = (app) => {
     router.delete("/api/delete-Payroll",PayrollController.handleDeletePayroll);
 //API của leaveRequest
     router.get("/api/get-all-LeaveRequest",LeaveRequestController.handleGetAllLeaveRequest);
+    router.get("/api/get-id-LeaveRequest",LeaveRequestController.handleIDAllLeaveRequest);
+    
     router.post("/api/create-LeaveRequest",LeaveRequestController.handleCreateLeaveRequest);
     router.put("/api/update-LeaveRequest",LeaveRequestController.handleUpdateLeaveRequest);
     router.delete("/api/delete-LeaveRequest",LeaveRequestController.handleDeleteLeaveRequest);

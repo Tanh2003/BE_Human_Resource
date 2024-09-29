@@ -20,6 +20,27 @@
     })
 } 
 
+ let handleGetUserEmployees = async(req, res) => {
+    let id = req.query.id; //all, id
+    if (!id) {
+        return res.status(200).json({
+            errCode: 1,
+            errMessage: 'Missing require parameters',
+            allEmployees
+        })
+
+    }
+    let allEmployees= await EmployeeServices.getUserEmployees(id);
+    
+    return res.status(200).json({
+        errCode: 0,
+        errMessage: 'OK',
+        allEmployees
+
+    })
+} 
+
+
 let handleCreateEmployee = async(req, res) => {
     let createEmployees = await EmployeeServices.createEmployees(req.body);
     console.log(createEmployees);
@@ -53,5 +74,6 @@ module.exports={
     handleUpdateEmployees,
     handleDeleteEmployees,
     handleGetAllEmployees,
+    handleGetUserEmployees
    
 }

@@ -27,6 +27,26 @@ let getAllLeaveRequest = (LeaveRequestId) => {
     });
 };
 
+let getIDLeaveRequest = (LeaveRequestId) => {
+    return new Promise(async(resolve, reject) => {
+        try {
+            let LeaveRequest= '';
+            
+                if(LeaveRequestId){
+                 LeaveRequest = await db.LeaveRequest.find({ 
+employee_id:LeaveRequestId }).populate({
+       path: 'employee_id',
+      select:
+        'employeesId',
+    });
+            }
+            resolve(LeaveRequest);
+        } catch (e) {
+            reject(e);
+        }
+    });
+};
+
 
 let createLeaveRequest = async (LeaveRequestData) => {
     return new Promise(async (resolve, reject) => {
@@ -129,5 +149,6 @@ module.exports = {
     createLeaveRequest,
     updateLeaveRequest,
     deleteLeaveRequest,
-    getAllLeaveRequest
+    getAllLeaveRequest,
+    getIDLeaveRequest,
 };
