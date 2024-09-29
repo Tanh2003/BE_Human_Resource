@@ -30,7 +30,10 @@ let handleUserLogin = async (email, password) => {
                 if (check) {
                     userData.errCode = 0;
                     userData.errMessage = "Sign In successfully!";
-                    // userData.user = user; // Password has been removed
+                    // Xóa mật khẩu trước khi trả về user
+                    let { password, ...userWithoutPassword } = user.toObject();  // Chuyển đối tượng user sang plain object
+                    userData.user = userWithoutPassword;
+                    
                 } else {
                     userData.errCode = 3;
                     userData.errMessage = "Incorrect password";
