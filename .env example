@@ -1,6 +1,3 @@
+MONGODB_URL="mongodb+srv://ntanhdeveloper:NTanh10082003@learnmongodb.riy4a.mongodb.net/humanresource?retryWrites=true&w=majority&appName=learnmongodb"
 PORT=8080
 NODE_ENV=development
-URL_REACT=http://127.0.0.1:3000
-URL_REACT2=http://localhost:3000
-MONGODB_URL="mongodb+srv://ntanhdeveloper:NTanh10082003@learnmongodb.riy4a.mongodb.net/weboto?retryWrites=true&w=majority&appName=learnmongodb"
-PORT=8080
